@@ -34,6 +34,15 @@ set noswapfile
 set nobackup
 set nowb
 
+" ================= Indentation ===================
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
 " ================ Persistent Undo ==================
 " Keep undo history across sessions, by storing in file.
 " Only works all the time.
@@ -43,12 +52,20 @@ if has('persistent_undo')
   set undofile
 endif
 
-" vim plug
+" install vim plug if not installed
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" vim plugins
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tmhedberg/SimpylFold'
 Plug 'valloric/youcompleteme'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'plasticboy/vim-markdown'
 call plug#end()
 
 let g:NERDTreeShowHidden=1
